@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <title>RipKut/Posts</title>
+</head>
+<body>
+<h1 id="mainHeader">RipKut</h1>
+<ul id="mainNavUl">
+    <li id="mainNavLi"><a href="../index.html">Home</a></li>
+    <li id="mainNavLi"><a href="../htmlPages/posts.html">Posts</a></li>
+    <li id="mainNavLi"><a href="../htmlPages/images.html">Images</a></li>
+    <li id="mainNavLi"><a href="../htmlPages/reviews.html">Reviews</a></li>
+    <li id="mainNavLi"><a href="../htmlPages/links.html">Links</a></li>
+    <li id="mainNavLi"><a class="active" href="../htmlPages/contact.html">Contact</a></li>
+</ul>
+<div id="contactForm">
+    <h2>Contact Us</h2>
+    <form action="#" method="post">
+        <label for="firstName">First Name:</label><br>
+        <input type="text" id="firstName" name="firstName" required><br><br>
+
+        <label for="lastName">Last Name:</label><br>
+        <input type="text" id="lastName" name="lastName" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="comment">Comment:</label><br>
+        <textarea id="comment" name="comment" rows="4" cols="50" required></textarea><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>

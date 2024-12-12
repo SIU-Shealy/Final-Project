@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap" rel="stylesheet">
+    <title>RipKut/Images</title>
+</head>
+<body>
+
+    <h1 id="mainHeader">RipKut</h1>
+    <ul id="mainNavUl">
+        <li id="mainNavLi"><a href="../index.html">Home</a></li>
+        <li id="mainNavLi"><a href="../htmlPages/posts.html">Posts</a></li>
+        <li id="mainNavLi"><a class="active" href="../htmlPages/images.html">Images</a></li>
+        <li id="mainNavLi"><a href="../htmlPages/reviews.html">Reviews</a></li>
+        <li id="mainNavLi"><a href="../htmlPages/links.html">Links</a></li>
+        <li id="mainNavLi"><a href="../htmlPages/contact.html">Contact</a></li>
+    </ul>
+
+    <h1 class="imagesMain">Images I Like</h1>
+    <div class="gallery" id="gallery"></div>
+    <div class="loader" id="loader">Loading more images...</div>
+    <button id="loadMoreButton">Load More Images</button>
+
+    <div id="myModal" class="modal">
+        <span class="close" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const loader = document.getElementById('loader');
+        const loadMoreButton = document.getElementById('loadMoreButton');
+        const modal = document.getElementById('myModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeModal = document.getElementById('closeModal');
+        let loading = false;
+
+        const imageItems = [
+            { url: '../Images/IMG_122.jpg', caption: 'horseshoe' },
+            { url: '../Images/IMG_121.jpg', caption: 'spookmy' },
+            { url: '../Images/IMG_120.jpg', caption: 'arabian drift core' },
+            { url: '../Images/IMG_119.jpg', caption: 'ztimming' },
+            { url: '../Images/IMG_118.jpg', caption: 'blakcrown' },
+            { url: '../Images/IMG_117.jpg', caption: 'ken karson' },
+            { url: '../Images/IMG_116.jpg', caption: 'Lean I Must' },
+            { url: '../Images/IMG_115.jpg', caption: 'chromo' },
+            { url: '../Images/IMG_114.jpg', caption: 'FTB' },
+            { url: '../Images/IMG_113.jpg', caption: 'ETBTFG' },
+            { url: '../Images/IMG_112.jpg', caption: 'sk8leton' },
+            { url: '../Images/IMG_111.jpg', caption: 'usual' },
+            { url: '../Images/IMG_110.jpg', caption: 'kurt kobain' },
+            { url: '../Images/IMG_109.jpg', caption: 'c4t' },
+            { url: '../Images/IMG_108.jpg', caption: 'scrappin' },
+            { url: '../Images/IMG_107.jpg', caption: 'thumbprint' },
+            { url: '../Images/IMG_106.jpg', caption: 'm#@w' },
+            { url: '../Images/IMG_105.jpg', caption: 'Pmoon' },
+            { url: '../Images/IMG_104.jpg', caption: 's4bway' },
+            { url: '../Images/IMG_103.jpg', caption: '2011' },
+            { url: '../Images/IMG_102.jpg', caption: 'gym' },
+            { url: '../Images/IMG_101.jpg', caption: 'windows' },
+            { url: '../Images/IMG_100.jpg', caption: 'Blagnac' },
+            { url: '../Images/IMG_99.jpg', caption: 'true' },
+            { url: '../Images/IMG_98.jpg', caption: 'chipped' },
+            { url: '../Images/IMG_97.jpg', caption: 'speed glitch' },
+            { url: '../Images/IMG_96.jpg', caption: '' },
+            { url: '../Images/IMG_95.jpg', caption: 'Low Poly Payday' },
+            { url: '../Images/IMG_94.jpg', caption: 'grim repper' },
+            { url: '../Images/IMG_93.jpg', caption: 'grim adventures' },
+            { url: '../Images/IMG_92.jpg', caption: 'wheat felds' },
+            { url: '../Images/IMG_91.jpg', caption: 'Ogretarium' },
+            { url: '../Images/IMG_90.jpg', caption: 'hillscape' },
+            { url: '../Images/IMG_89.jpg', caption: '1985' },
+            { url: '../Images/IMG_88.jpg', caption: 'late night stop' },
+            { url: '../Images/IMG_87.jpg', caption: 'Isle 0' },
+            { url: '../Images/IMG_86.jpg', caption: 'Butterfly Feeling' },
+            { url: '../Images/IMG_85.jpg', caption: '||||||||||||' },
+            { url: '../Images/IMG_84.jpg', caption: 'Science Lab V1.4' },
+            { url: '../Images/IMG_83.jpg', caption: 'Rassada' },
+            { url: '../Images/IMG_82.jpg', caption: 'fly me to the moon' },
+            { url: '../Images/IMG_81.jpg', caption: 'urm, what does this button do' },
+            { url: '../Images/IMG_80.jpg', caption: 'yippie, pizza!' },
+            { url: '../Images/IMG_79.jpg', caption: 'dad, theres a monster under my bed' },
+            { url: '../Images/IMG_78.jpg', caption: 'Kim Za-Un' },
+            { url: '../Images/IMG_77.jpg', caption: 'happy birffday' },
+            { url: '../Images/IMG_76.jpg', caption: 'uni' },
+            { url: '../Images/IMG_75.jpg', caption: 'rohan' },
+            { url: '../Images/IMG_74.jpg', caption: '(not a terrorist)' },
+            { url: '../Images/IMG_73.jpg', caption: 'F1 is cool i guess' },
+            { url: '../Images/IMG_72.jpg', caption: 'oil up' },
+            { url: '../Images/IMG_71.jpg', caption: 'isnt this an album' },
+            { url: '../Images/IMG_70.jpg', caption: 'coughing and weezing' },
+            { url: '../Images/IMG_69.jpg', caption: 'american dream' },
+            { url: '../Images/IMG_68.jpg', caption: 'klapt' },
+            { url: '../Images/IMG_67.jpg', caption: 'cat get out the way!' },
+            { url: '../Images/IMG_66.jpg', caption: 'Torta' },
+            { url: '../Images/IMG_65.jpg', caption: "2000's shirt art" },
+            { url: '../Images/IMG_64.jpg', caption: '308 Negra Arroyo Lane' },
+            { url: '../Images/IMG_63.jpg', caption: '50lb deadlift' },
+            { url: '../Images/IMG_62.jpg', caption: 'ALF' },
+            { url: '../Images/IMG_61.jpg', caption: 'scadit' },
+            { url: '../Images/IMG_60.jpg', caption: '<-_->' },
+            { url: '../Images/IMG_59.jpg', caption: 'interesting movie V2' },
+            { url: '../Images/IMG_58.jpg', caption: 'interesting movie V1' },
+            { url: '../Images/IMG_57.jpg', caption: 'Catzilla' },
+            { url: '../Images/IMG_56.jpg', caption: 'beep beep boop boop' },
+            { url: '../Images/IMG_55.jpg', caption: 'Weom Weom' },
+            { url: '../Images/IMG_54.jpg', caption: 'No pizza sauce' },
+            { url: '../Images/IMG_53.jpg', caption: 'Opium' },
+            { url: '../Images/IMG_52.jpg', caption: 'very relaxed' },
+            { url: '../Images/IMG_51.jpg', caption: '20/100 Vision' },
+            { url: '../Images/IMG_50.jpg', caption: 'VR' },
+            { url: '../Images/IMG_49.jpg', caption: 'got lost' },
+            { url: '../Images/IMG_48.jpg', caption: 'Volver,Volver' },
+            { url: '../Images/IMG_47.jpg', caption: 'polune III' },
+            { url: '../Images/IMG_46.jpg', caption: 'lil uzi' },
+            { url: '../Images/IMG_45.jpg', caption: 'Skate 3' },
+            { url: '../Images/IMG_44.jpg', caption: 'lil pumpkin' },
+            { url: '../Images/IMG_43.jpg', caption: 'rockstart made' },
+            { url: '../Images/IMG_42.jpg', caption: 'lightbulb gru' },
+            { url: '../Images/IMG_41.jpg', caption: 'Vista Cortana' },
+            { url: '../Images/IMG_40.jpg', caption: 'why did i add this' },
+            { url: '../Images/IMG_39.jpg', caption: 'payday 1999' },
+            { url: '../Images/IMG_38.jpg', caption: 'N/A' },
+            { url: '../Images/IMG_37.jpg', caption: 'good movie' },
+            { url: '../Images/IMG_36.jpg', caption: 'roach' },
+            { url: '../Images/IMG_35.jpg', caption: 'interesting fella' },
+            { url: '../Images/IMG_34.jpg', caption: 'Rosemary Kennedy' },
+            { url: '../Images/IMG_33.jpg', caption: 'Money, Cash, Hoes' },
+            { url: '../Images/IMG_32.jpg', caption: 'Bread Cat' },
+            { url: '../Images/IMG_31.jpg', caption: 'huzz' },
+            { url: '../Images/IMG_30.jpg', caption: 'white bear YN fello' },
+            { url: '../Images/IMG_29.jpg', caption: '1990 Quazantation' },
+            { url: '../Images/IMG_28.jpg', caption: '<^>' },
+            { url: '../Images/IMG_27.jpg', caption: 'CATTA IBN TEH COMPOTER' },
+            { url: '../Images/IMG_26.jpg', caption: 'NaN' },
+            { url: '../Images/IMG_25.jpg', caption: 'Peanut Butter High' },
+            { url: '../Images/IMG_1.png', caption: 'oink oink' },
+            { url: '../Images/IMG_2.png', caption: 'hey waiter, can i get some skibidi sliders' },
+            { url: '../Images/IMG_3.png', caption: 'a hearby sentance you to a 9-5 with 2 weeks of vacation' },
+            { url: '../Images/IMG_4.png', caption: 'sad monkey :(' },
+            { url: '../Images/IMG_5.png', caption: 'golden unc' },
+            { url: '../Images/IMG_6.png', caption: 'im cooked fr' },
+            { url: '../Images/IMG_7.png', caption: 'sometimes a yn gotta ponder' },
+            { url: '../Images/IMG_8.png', caption: 'my tortoise died :(' },
+            { url: '../Images/IMG_9.png', caption: "just button mashing" },
+            { url: '../Images/IMG_10.png', caption: '_\|\_' },
+            { url: '../Images/IMG_11.png', caption: 'i just know people' },
+            { url: '../Images/IMG_12.png', caption: 'acting' },
+            { url: '../Images/IMG_13.png', caption: '' },
+            { url: '../Images/IMG_14.png', caption: 'a crash out will come any day now' },
+            { url: '../Images/IMG_15.png', caption: 'first day of my new job today' },
+            { url: '../Images/IMG_16.png', caption: 'help a brotha out' },
+            { url: '../Images/IMG_17.png', caption: 'WTF' },
+            { url: '../Images/IMG_18.png', caption: 'bro got me captivated by language i dont even understand' },
+            { url: '../Images/IMG_19.png', caption: 'goblin' },
+            { url: '../Images/IMG_20.png', caption: 'i dont even know if what im studying is what i wanna do' },
+            { url: '../Images/IMG_21.png', caption: '11/22/2024' },
+            { url: '../Images/IMG_22.png', caption: 'just a interesting image' },
+            { url: '../Images/IMG_23.png', caption: 'soomitime' },
+            { url: '../Images/IMG_24.png', caption: 'grayscale' },
+        ];
+
+        let currentIndex = 0;
+
+        function loadImages() {
+            loader.style.display = 'block';
+            loading = true;
+
+            for (let i = 0; i < 12; i++) {
+                if (currentIndex >= imageItems.length) {
+                    loader.style.display = 'none';
+                    loadMoreButton.style.display = 'none';
+                    return;
+                }
+
+                const item = imageItems[currentIndex];
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                const img = document.createElement('img');
+                img.src = item.url;
+
+                const caption = document.createElement('div');
+                caption.className = 'caption';
+                caption.textContent = item.caption;
+
+                img.addEventListener('click', () => {
+                    modal.style.display = 'block';
+                    modalImage.src = item.url;
+                    modalCaption.textContent = item.caption;
+                });
+
+                galleryItem.appendChild(img);
+                galleryItem.appendChild(caption);
+                gallery.appendChild(galleryItem);
+                currentIndex++;
+            }
+
+            loader.style.display = 'none';
+            loading = false;
+        }
+        
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        loadMoreButton.addEventListener('click', () => {
+            if (!loading) {
+                loadImages();
+            }
+        });
+
+        loadImages();
+    </script>
+
+</body>
+<footer style="text-align: center; padding: 20px; color: hotpink; margin-top: 20px; font-family: 'Permanent Marker', cursive;">
+    <p>shealy made this?, I thought he was lazy</p>
+</footer>
+</html>
